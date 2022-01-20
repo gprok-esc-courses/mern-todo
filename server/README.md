@@ -1,1 +1,2 @@
-# Simple todo server
+# Simple todo list server
+

@@ -3,7 +3,22 @@ const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 const User = require("../models/user.model")
 
+router.get("/profile", async (req, res) => {
+    const token = req.headers["x-access-token"]
+    if(!token) {
+        return res.status(400).send("Not authenticated")
+    }
+    try {
+        const tokenData = jwt.verify(token, process.env.JWT_KEY)
+        return res.status(200).send(tokenData)
+    }
+    catch(ex) {
+        return res.status(400).send("Invalid token")
+    }
+})
+
 router.post("/login", async (req, res) => {
+    console.log(req.body)
     try {
         const {email, password} = req.body
         if(!email || !password) {
